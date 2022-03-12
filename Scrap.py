@@ -47,7 +47,7 @@ for i in range(83):
 
 
     for i in range(1,len(links)):
-        
+      
         driver.get(links[i])
         
         time.sleep(2) 
