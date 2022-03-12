@@ -11,12 +11,16 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common import exceptions  
 import csv
 from selenium.common.exceptions import NoSuchElementException        
+  
+from selenium.webdriver.common.action_chains import ActionChains
 
 
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 driver.get("https://www.tripadvisor.com/Hotels-g187147-Paris_Ile_de_France-Hotels.html")
 driver.maximize_window()
-wait = WebDriverWait(driver, 10)
+ActionChains(driver, 20).move_to_element(WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//button[text()='I Accept']")))).click().perform()
+
+
 
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument("--disable-infobars")
@@ -228,11 +232,36 @@ for i in range(83):
         
         
         #Détail propriété:
-        driver.find_element_by_xpath(".//div[@class='ssr-init-26f']").click
+        element=driver.find_element_by_xpath(".//div[contains(@class, 'dPTxH S4 b _S')]")
+        actions = ActionChains(driver)
+        actions.move_to_element(element).perform()
+        ActionChains(driver, 20).move_to_element(WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//div[text()='Show more']")))).click().perform()
         
-        Property_Amenities= driver.find_elements_by_xpath(".//div[@class='bUmsU f ME H3 _c']")
-        for o in range(len(Property_Amenities)):
-            Property_Amenities[o]=Property_Amenities[o].text
+        
+        
+        A=driver.find_elements_by_xpath(".//div[contains(@class,'exYMC K I Pf')]")
+        Amenities=A[0].find_elements_by_xpath(".//div[contains(@class,'bUmsU f ME H3 _c')]")
+        
+        for o in range(len(Amenities)):
+            Amenities[o]=Amenities[o].text
+        
+        
+        ActionChains(driver, 20).move_to_element(WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//span[text()='Room features']")))).click().perform()
+        
+        B=driver.find_elements_by_xpath(".//div[contains(@class,'exYMC K I Pf')]")
+        Features=B[0].find_elements_by_xpath(".//div[contains(@class,'bUmsU f ME H3 _c')]")
+        
+        for o in range(len(Features)):
+            Features[o]=Features[o].text
+        
+        
+        ActionChains(driver, 20).move_to_element(WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//span[text()='Room types']")))).click().perform()
+        C=driver.find_elements_by_xpath(".//div[contains(@class,'exYMC K I Pf')]")
+        
+        Types=C[0].find_elements_by_xpath(".//div[contains(@class,'bUmsU f ME H3 _c')]")
+        
+        for o in range(len(Types)):
+            Types[o]=Types[o].text
 
         compteur_hotel+=1        
         print(compteur_hotel)
