@@ -447,7 +447,7 @@ for i in range(83):
         if "Books, DVDs, music for children" in Amenities:
             Books_DVD_music="Yes"
         else:
-            Books_DVDs_music="No"
+            Books_DVD_music="No"
         if "Strollers" in Amenities:
             Strollers="Yes"
         else:
