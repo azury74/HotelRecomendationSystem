@@ -1,5 +1,3 @@
-#-*- coding: UTF-8 -*-
-
 import time
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -8,6 +6,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
+from selenium.common import exceptions  
 import csv
 from selenium.common.exceptions import NoSuchElementException        
 
@@ -15,6 +14,7 @@ from selenium.common.exceptions import NoSuchElementException
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 driver.get("https://www.tripadvisor.com/Hotels-g187147-Paris_Ile_de_France-Hotels.html")
 driver.maximize_window()
+wait = WebDriverWait(driver, 10)
 
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument("--disable-infobars")
@@ -30,10 +30,10 @@ csvWriter = csv.writer(csvFile,delimiter=';', quotechar='"')
 #Nom des collones 
 csvWriter.writerow(['Name','Price_night',"Rank",'Adress',"Phone","Website","Description","Hotel_Style","Mail",'Rating',"Number_Rating","Location_Rating","Cleanliness_Rating","Service_Rating","Value_Rating","Walking_Grade","Near_Restaurants","Near_Attractions","Language_Spoken"])
 
-
-
+compteur_hotel=0
 
 for i in range(83):
+    driver.refresh()
     elements=driver.find_elements_by_xpath(".//a[contains(@class, 'property_title prominent')]")
     links = []
     for i in range(len(elements)):
@@ -117,39 +117,61 @@ for i in range(83):
         except NoSuchElementException:
             Mail=None
        
-        if(len(good_to_know)<3):
+      
+        try:
             try:
-                Hotel_Style_info=good_to_know[3].find_elements_by_xpath(".//div[contains(@class, 'drcGn _R MC S4 _a H')]")
-                Hotel_Style=""
-            except NoSuchElementException:
+                try:
+                    Hotel_Style_info=good_to_know[3].find_elements_by_xpath(".//div[contains(@class, 'drcGn _R MC S4 _a H')]")
+                    Hotel_Style=""
+                except exceptions.StaleElementReferenceException:
+                    Hotel_Style=None
+                    Hotel_Style_info=None
+            except IndexError:
                 Hotel_Style=None
                 Hotel_Style_info=None
+        except NoSuchElementException:
+            Hotel_Style=None
+            Hotel_Style_info=None
             
+        
+        
+        if(Hotel_Style_info== None):
+            Hotel_Style=None
+        else :
             for k in Hotel_Style_info:
                 temp=k.text+" "
                 Hotel_Style+=temp
                
             if((Hotel_Style=="") or len(Hotel_Style.strip()) == 0):
                 Hotel_Style=None
-        else : 
-            Hotel_Style=None
         
-        if(len(good_to_know)<4):
-            try:
-                Language_Spoken_info=good_to_know[4].find_elements_by_xpath(".//div[contains(@class, 'drcGn _R MC S4 _a H')]")
-                Language_Spoken=""
-            except NoSuchElementException:
+        
+        
+        try:
+            try :
+                try:
+                    Language_Spoken_info=good_to_know[4].find_elements_by_xpath(".//div[contains(@class, 'drcGn _R MC S4 _a H')]")
+                    Language_Spoken=""
+                except exceptions.StaleElementReferenceException:
+                    Language_Spoken=None
+                    Language_Spoken_info=None
+            except IndexError:
                 Language_Spoken=None
                 Language_Spoken_info=None
-            
+        except NoSuchElementException:
+            Language_Spoken=None
+            Language_Spoken_info=None
+        
+        if(Language_Spoken_info== None):
+            Language_Spoken=None
+        else :
             for k in Language_Spoken_info:
                 temp=k.text+" "
                 Language_Spoken+=temp
                
             if((Language_Spoken=="") or len(Language_Spoken.strip()) == 0):
                 Language_Spoken=None
-        else : 
-            Language_Spoken=None
+
         
         tmp_Rating=[]
         for z in range(2,6): 
@@ -182,12 +204,7 @@ for i in range(83):
         except NoSuchElementException:
             Adress=None
         
-        
-        
-        
-        
-        
-        
+
         #Attraction autour de l'hotel:
         try:
             Walking_Grade=driver.find_element_by_xpath(".//span[contains(@class, 'bpwqy dfNPK')]").text
@@ -215,7 +232,8 @@ for i in range(83):
         for o in range(len(Property_Amenities)):
             Property_Amenities[o]=Property_Amenities[o].text
 
-            
+        compteur_hotel+=1        
+        print(compteur_hotel)
         #Ecriture 
         csvWriter.writerow((str(Name),Price,Rank,str(Adress),str(Phone),str(Website),str(Description),str(Hotel_Style),str(Mail),Rating,Number_Rating,Location_Rating,Cleanliness_Rating,Service_Rating,Value_Rating,Walking_Grade,Near_Restaurants,Near_Attractions,str(Language_Spoken)))
         driver.back()
