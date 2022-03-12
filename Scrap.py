@@ -42,7 +42,7 @@ for i in range(83):
     driver.refresh()
     elements=driver.find_elements_by_xpath(".//a[contains(@class, 'property_title prominent')]")
     links = []
-    for i in range(elements):
+    for i in range(len(elements)):
         links.append(elements[i].get_attribute('href'))
 
 
