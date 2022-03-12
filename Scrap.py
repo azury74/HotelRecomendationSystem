@@ -38,11 +38,11 @@ csvWriter.writerow(['Name','Price_night',"Rank",'Adress',"Phone","Website","Desc
 
 compteur_hotel=0
 
-for i in range(2):
+for i in range(83):
     driver.refresh()
     elements=driver.find_elements_by_xpath(".//a[contains(@class, 'property_title prominent')]")
     links = []
-    for i in range(2):
+    for i in range(elements):
         links.append(elements[i].get_attribute('href'))
 
 
