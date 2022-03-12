@@ -33,7 +33,7 @@ csvWriter.writerow(['Name','Price_night',"Rank",'Adress',"Phone","Website","Desc
 
 
 
-for i in range(84):
+for i in range(83):
     elements=driver.find_elements_by_xpath(".//a[contains(@class, 'property_title prominent')]")
     links = []
     for i in range(len(elements)):
@@ -117,34 +117,39 @@ for i in range(84):
         except NoSuchElementException:
             Mail=None
        
-        try:
-            Hotel_Style_info=good_to_know[3].find_elements_by_xpath(".//div[contains(@class, 'drcGn _R MC S4 _a H')]")
-            Hotel_Style=""
-        except NoSuchElementException:
+        if(len(good_to_know)<3):
+            try:
+                Hotel_Style_info=good_to_know[3].find_elements_by_xpath(".//div[contains(@class, 'drcGn _R MC S4 _a H')]")
+                Hotel_Style=""
+            except NoSuchElementException:
+                Hotel_Style=None
+                Hotel_Style_info=None
+            
+            for k in Hotel_Style_info:
+                temp=k.text+" "
+                Hotel_Style+=temp
+               
+            if((Hotel_Style=="") or len(Hotel_Style.strip()) == 0):
+                Hotel_Style=None
+        else : 
             Hotel_Style=None
-            Hotel_Style_info=None
         
-        for k in Hotel_Style_info:
-            temp=k.text+" "
-            Hotel_Style+=temp
-           
-        if((Hotel_Style=="") or len(Hotel_Style.strip()) == 0):
-            Hotel_Style=None
-        
-        try:
-            Language_Spoken_info=good_to_know[4].find_elements_by_xpath(".//div[contains(@class, 'drcGn _R MC S4 _a H')]")
-            Language_Spoken=""
-        except NoSuchElementException:
+        if(len(good_to_know)<4):
+            try:
+                Language_Spoken_info=good_to_know[4].find_elements_by_xpath(".//div[contains(@class, 'drcGn _R MC S4 _a H')]")
+                Language_Spoken=""
+            except NoSuchElementException:
+                Language_Spoken=None
+                Language_Spoken_info=None
+            
+            for k in Language_Spoken_info:
+                temp=k.text+" "
+                Language_Spoken+=temp
+               
+            if((Language_Spoken=="") or len(Language_Spoken.strip()) == 0):
+                Language_Spoken=None
+        else : 
             Language_Spoken=None
-            Language_Spoken_info=None
-        
-        for k in Language_Spoken_info:
-            temp=k.text+" "
-            Language_Spoken+=temp
-           
-        if((Language_Spoken=="") or len(Language_Spoken.strip()) == 0):
-            Language_Spoken=None
-        
         
         tmp_Rating=[]
         for z in range(2,6): 
