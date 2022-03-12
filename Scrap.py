@@ -18,7 +18,7 @@ csvFile = open("hoteltest.csv", "w", newline='', encoding="utf-8")
 csvWriter = csv.writer(csvFile,delimiter=';', quotechar='"')
 
 #Nom des collones 
-csvWriter.writerow(['Name','Price_night',"Rank",'Adress',"Phone","Description","Mail",'Rating',"Number_Rating","Location_Rating","Cleanliness_Rating","Service_Rating","Value_Rating","Walking_Grade","Near_Restaurants","Near_Attractions"])
+csvWriter.writerow(['Name','Price_night',"Rank",'Adress',"Phone","Website","Description","Hotel_Style","Mail",'Rating',"Number_Rating","Location_Rating","Cleanliness_Rating","Service_Rating","Value_Rating","Walking_Grade","Near_Restaurants","Near_Attractions","Language_Spoken"])
 
 
 elements=driver.find_elements_by_xpath(".//a[contains(@class, 'property_title prominent')]")
@@ -29,30 +29,56 @@ for i in range(len(elements)):
     links.append(elements[i].get_attribute('href'))
 
 
-for i in range(4):
+for i in range(len(links)):
     
     driver.get(links[i])
     
     time.sleep(2) 
     
     
-    #Différente partie de la page:
-    header=driver.find_elements_by_xpath(".//div[@class='ui_container is-fluid page-section accessible_red_3']")
-    about=driver.find_elements_by_xpath(".//div[@class='ui_columns uXLfx']")
+    #Différente partie de la page: 
+    try:
+        header=driver.find_elements_by_xpath(".//div[@class='ui_container is-fluid page-section accessible_red_3']")
+    except NoSuchElementException:
+        header=None
+    try:
+        about=driver.find_elements_by_xpath(".//div[@class='ui_column  ']")
+    except NoSuchElementException:
+        about=None
+    try:
+        good_to_know=driver.find_elements_by_xpath(".//div[@class='ui_column is-6 ']")
+    except NoSuchElementException:
+        good_to_know=None
     
+    try:
+        buble=driver.find_elements_by_xpath(".//span[contains(@class, 'ui_bubble_rating bubble_')]")
+    except NoSuchElementException:
+        buble=None
     
+ 
     
     #Info du Header :
-    Name = header[0].find_element_by_xpath(".//h1[contains(@class, 'fkWsC b d Pn')]").text
-    score_class = header[0].find_element_by_xpath(".//span[contains(@class, 'ui_bubble_rating bubble_')]").get_attribute("class")
-    Rating = score_class.split("_")[3]
-    Rating=int(Rating)/10
+    try:
+        Name = header[0].find_element_by_xpath(".//h1[contains(@class, 'fkWsC b d Pn')]").text
+    except NoSuchElementException:
+        Name=None
+    
+    try:
+        score_class = header[0].find_element_by_xpath(".//span[contains(@class, 'ui_bubble_rating bubble_')]").get_attribute("class")
+        Rating = score_class.split("_")[3]
+        Rating=int(Rating)/10
+    except NoSuchElementException:
+        score_class=None
+    
+    try:
+        Website= driver.find_element_by_xpath(".//a[contains(@class, 'dOGcA Ci Wc _S C dCQWE _S eCdbd GlpQN')]").get_attribute("href")
+    except NoSuchElementException:
+        Website=None
     
     try:
         Price= driver.find_element_by_xpath(".//div[contains(@class, 'fzleB b')]").text
     except NoSuchElementException:
         Price= driver.find_element_by_xpath(".//div[contains(@class, 'vyNCd b Wi')]").text
-    
     
     try:
         info_Rank=header[0].find_element_by_xpath(".//div[contains(@class, 'KeVaw')]").text
@@ -80,29 +106,69 @@ for i in range(4):
     except NoSuchElementException:
         Mail=None
    
-    Detail_Rating=about[0].find_elements_by_xpath(".//span[contains(@class, 'ui_bubble_rating bubble_')]")
+    try:
+        Hotel_Style_info=good_to_know[3].find_elements_by_xpath(".//div[contains(@class, 'drcGn _R MC S4 _a H')]")
+        Hotel_Style=""
+    except NoSuchElementException:
+        Hotel_Style=None
+        Hotel_Style_info=None
     
-    for z in range(len(Detail_Rating)): 
-        temp=Detail_Rating[z].get_attribute("class")
-        Detail_Rating[z]=temp.split("_")[3]
-      
+    for k in Hotel_Style_info:
+        temp=k.text+" "
+        Hotel_Style+=temp
+       
+    if((Hotel_Style=="") or len(Hotel_Style.strip()) == 0):
+        Hotel_Style=None
     
-    if(len(Detail_Rating)==1):
+    try:
+        Language_Spoken_info=good_to_know[4].find_elements_by_xpath(".//div[contains(@class, 'drcGn _R MC S4 _a H')]")
+        Language_Spoken=""
+    except NoSuchElementException:
+        Language_Spoken=None
+        Language_Spoken_info=None
+    
+    for k in Language_Spoken_info:
+        temp=k.text+" "
+        Language_Spoken+=temp
+       
+    if((Language_Spoken=="") or len(Language_Spoken.strip()) == 0):
+        Language_Spoken=None
+    
+    
+    tmp_Rating=[]
+    for z in range(2,6): 
+        temp=buble[z].get_attribute("class")
+        tmp_Rating.append(temp.split("_")[3])
+    
+    #print("------------")
+    print(tmp_Rating)
+    #print("END")
+    
+    if(len(tmp_Rating)==1 or len(tmp_Rating)==0 ):
         Location_Rating=None
         Cleanliness_Rating=None
         Value_Rating=None
         Service_Rating=None
     else :
-        Location_Rating=float(Detail_Rating[1])/10
-        Cleanliness_Rating=float(Detail_Rating[2])/10
-        Service_Rating=float(Detail_Rating[3])/10
-        Value_Rating=float(Detail_Rating[4])/10
-       
-    Number_Rating_info=about[0].find_element_by_xpath(".//span[contains(@class, 'btQSs q Wi z Wc')]").text
-    Number_Rating=Number_Rating_info.split(" ")[0]
+        Location_Rating=int(tmp_Rating[0])/10
+        Cleanliness_Rating=int(tmp_Rating[1])/10
+        Service_Rating=int(tmp_Rating[2])/10
+        Value_Rating=int(tmp_Rating[3])/10
     
-    Adress=header[0].find_element_by_xpath(".//span[contains(@class, 'ceIOZ yYjkv')]").text
-      
+    try:
+        Number_Rating_info=about[1].find_element_by_xpath(".//span[contains(@class, 'btQSs q Wi z Wc')]").text
+        Number_Rating=Number_Rating_info.split(" ")[0]
+    except NoSuchElementException:
+        Number_Rating_info=None
+    
+    try:
+        Adress=header[0].find_element_by_xpath(".//span[contains(@class, 'ceIOZ yYjkv')]").text
+    except NoSuchElementException:
+        Adress=None
+    
+    
+    
+    
     
     
     
@@ -126,9 +192,23 @@ for i in range(4):
         Near_Restaurants=None
     
     
+    #Détail propriété:
+    driver.find_element_by_xpath(".//div[@class='ssr-init-26f']").click
     
+    Property_Amenities= driver.find_elements_by_xpath(".//div[@class='bUmsU f ME H3 _c']")
+    for o in range(len(Property_Amenities)):
+        Property_Amenities[o]=Property_Amenities[o].text
+        
+
+        
+        
+        
+        
+        
+        
+        
     #Ecriture 
-    csvWriter.writerow((str(Name),Price,Rank,str(Adress),str(Phone),str(Description),str(Mail),Rating,Number_Rating,Location_Rating,Cleanliness_Rating,Service_Rating,Value_Rating,Walking_Grade,Near_Restaurants,Near_Attractions))
+    csvWriter.writerow((str(Name),Price,Rank,str(Adress),str(Phone),str(Website),str(Description),str(Hotel_Style),str(Mail),Rating,Number_Rating,Location_Rating,Cleanliness_Rating,Service_Rating,Value_Rating,Walking_Grade,Near_Restaurants,Near_Attractions,str(Language_Spoken)))
     driver.back()
 
 
