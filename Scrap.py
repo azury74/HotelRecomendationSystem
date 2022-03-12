@@ -95,7 +95,7 @@ for i in range(83):
         try:
             Price= driver.find_element_by_xpath(".//div[contains(@class, 'fzleB b')]").text
         except NoSuchElementException:
-            Price= driver.find_element_by_xpath(".//div[contains(@class, 'vyNCd b Wi')]").text
+            Price= None
         
         try:
             info_Rank=header[0].find_element_by_xpath(".//div[contains(@class, 'KeVaw')]").text
