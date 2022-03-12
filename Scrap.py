@@ -34,15 +34,15 @@ csvFile = open("hotel1.csv", "w", newline='', encoding="utf-8")
 csvWriter = csv.writer(csvFile,delimiter=';', quotechar='"')
 
 #Nom des collones 
-csvWriter.writerow(['Name','Price_night',"Rank",'Adress',"Phone","Website","Description","Hotel_Style","Mail",'Rating',"Number_Rating","Location_Rating","Cleanliness_Rating","Service_Rating","Value_Rating","Walking_Grade","Near_Restaurants","Near_Attractions","Language_Spoken"])
+csvWriter.writerow(['Name','Price_night',"Rank",'Adress',"Phone","Website","Description","Hotel_Style","Mail",'Rating',"Number_Rating","Location_Rating","Cleanliness_Rating","Service_Rating","Value_Rating","Walking_Grade","Near_Restaurants","Near_Attractions","Language_Spoken","Wifi","Taxi","Breakfast","Baggage_storage","All_day_front_desk","All_day_check_in","Dry_cleaning","Complimentary_Coffee","Snack_bar","Concierge","Newspaper","Laundry_service","Non_smoking_hotel","Ironing_service","Kid_friendly_buffet","Bar_Lounge","Allergy_free_room","Coffee_tea_maker","Blackout_curtains","Air_conditioning","Housekeeping","Flatscreen_TV","Bathrobes","All_day_check_in","Alarm_clock","Complimentary_toiletries","Snack_bar","Soundproof_rooms","Desk","Minibar","Bath_shower","Safe","Bottled_water","Electric_kettle","Hair_dryer","Family_rooms","Non_smoking_rooms","Valet_parking","Pool","Indoor_pool","Sauna","Hot_tub","Fitness_Center","Rooftop_bar","Spa","Massage","Doorperson","Umbrella","Butler_service","Umbrella","Hammam","Meeting_rooms","Banquet_room","Meeting_rooms","Highchairs_available","Pets_Allowed","Car_hire","Restaurant","Extra_long_beds","Air_purifier","Room_service","Private_balcony","Landmark_view","City_view","Suites","Separate_dining_area","Interconnected_rooms_available","Cable_satellite_TV","Refrigerator","Breakfast_in_the_room","Personal_trainer","Currency_exchange","Paid_private_parking_nearby","Walking_tours","Yoga_room","Books_DVD_music","Strollers"])
 
 compteur_hotel=0
 
-for i in range(83):
+for i in range(2):
     driver.refresh()
     elements=driver.find_elements_by_xpath(".//a[contains(@class, 'property_title prominent')]")
     links = []
-    for i in range(len(elements)):
+    for i in range(2):
         links.append(elements[i].get_attribute('href'))
 
 
@@ -265,8 +265,354 @@ for i in range(83):
 
         compteur_hotel+=1        
         print(compteur_hotel)
+        
+        
+        
+        
+        #Boucle pour assigner les YES/NO
+        if "Free High Speed Internet (WiFi)" in Amenities:
+            Wifi="Yes"
+        else : 
+            Wifi="No"
+
+        if "Taxi service" in Amenities:
+            Taxi="Yes"
+        else : 
+            Taxi="No"
+        if "Breakfast available" in Amenities:
+            Breakfast="Yes"
+        else:
+            Breakfast="No"
+        if "Baggage storage" in Amenities:
+            Baggage_storage="Yes"
+        else:
+            Baggage_storage="No"
+        if "24-hour front desk" in Amenities:
+            All_day_front_desk="Yes"
+        else:
+            All_day_front_desk="No"
+        if "24-hour check-in" in Amenities:
+            All_day_check_in="Yes"
+        else:
+            All_day_check_in="No"
+        if "Dry cleaning" in Amenities:
+            Dry_cleaning="Yes"
+        else:
+            Dry_cleaning="No"
+        if "Complimentary Instant Coffee" in Amenities:
+            Complimentary_Coffee="Yes"
+        else:
+            Complimentary_Coffee="No"
+        if "Snack bar" in Amenities:
+            Snack_bar="Yes"
+        else:
+            Snack_bar="No"
+        if "Concierge" in Amenities:
+            Concierge="Yes"
+        else:
+            Concierge="No"
+        if "Newspaper" in Amenities:
+            Newspaper="Yes"
+        else:
+            Newspaper="No"
+        if "Laundry service" in Amenities:
+            Laundry_service="Yes"
+        else:
+            Laundry_service="No"
+        if "Non-smoking hotel" in Amenities:
+            Non_smoking_hotel="Yes"
+        else:
+            Non_smoking_hotel="No"
+        if "Ironing_service" in Amenities:
+            Ironing_service="Yes"
+        else:
+            Ironing_service="No"
+        if "Bar / lounge" in Amenities:
+            Bar_Lounge="Yes"
+        else:
+            Bar_Lounge="No"
+        if "Kid-friendly buffet" in Amenities:
+            Kid_friendly_buffet="Yes"
+        else:
+            Kid_friendly_buffet="No"
+        if "Valet parking" in Amenities:
+            Valet_parking="Yes"
+        else:
+            Valet_parking="No"
+        if "Pool" in Amenities:
+            Pool="Yes"
+        else:
+            Pool="No"
+        if "Indoor pool" in Amenities:
+            Indoor_pool="Yes"
+        else:
+            Indoor_pool="No"
+        if "Sauna" in Amenities:
+            Sauna="Yes"
+        else:
+            Sauna="No"
+        if "Hot tub" in Amenities:
+            Hot_tub="Yes"
+        else:
+            Hot_tub="No"
+        if "Fitness Center with Gym / Workout Room" in Amenities:
+            Fitness_Center="Yes"
+        else:
+            Fitness_Center="No"
+        if "Rooftop bar" in Amenities:
+           Rooftop_bar="Yes"
+        else:
+            Rooftop_bar="No"
+        if "Spa" in Amenities:
+            Spa="Yes"
+        else:
+            Spa="No"
+        if "Massage" in Amenities:
+            Massage="Yes"
+        else:
+            Massage="No"
+        if "Doorperson" in Amenities:
+            Doorperson="Yes"
+        else:
+            Doorperson="No"
+        if "Umbrella" in Amenities:
+            Umbrella="Yes"
+        else:
+            Umbrella="No"
+        if "Butler service" in Amenities:
+            Butler_service="Yes"
+        else:
+            Butler_service="No"
+        if "Umbrella" in Amenities:
+            Umbrella="Yes"
+        else:
+            Umbrella="No"
+        if "Hammam" in Amenities:
+            Hammam="Yes"
+        else:
+            Hammam="No"
+        if "Meeting rooms" in Amenities:
+            Meeting_rooms="Yes"
+        else:
+            Meeting_rooms="No"
+        if "Banquet room" in Amenities:
+            Banquet_room="Yes"
+        else:
+            Banquet_room="No"
+        if "Meeting rooms" in Amenities:
+            Meeting_rooms="Yes"
+        else:
+            Meeting_rooms="No"
+        if "Highchairs available" in Amenities:
+            Highchairs_available="Yes"
+        else:
+            Highchairs_available="No"
+        if "Pets Allowed ( Dog / Pet Friendly )" in Amenities:
+            Pets_Allowed="Yes"
+        else:
+            Pets_Allowed="No"
+        if "Car hire" in Amenities:
+            Car_hire="Yes"
+        else:
+            Car_hire="No"
+        if "Restaurant" in Amenities:
+            Restaurant="Yes"
+        else:
+            Restaurant="No"
+        if "Breakfast in the room" in Amenities:
+            Breakfast_in_the_room="Yes"
+        else:
+            Breakfast_in_the_room="No"
+        if "Personal trainer" in Amenities:
+            Personal_trainer="Yes"
+        else:
+            Personal_trainer="No"
+        if "Currency exchange" in Amenities:
+            Currency_exchange="Yes"
+        else:
+            Currency_exchange="No"
+        if "Paid private parking nearby" in Amenities:
+            Paid_private_parking_nearby="Yes"
+        else:
+            Paid_private_parking_nearby="No"
+        if "Walking tours" in Amenities:
+            Walking_tours="Yes"
+        else:
+            Walking_tours="No"
+        if "Yoga room" in Amenities:
+            Yoga_room="Yes"
+        else:
+            Yoga_room="No"
+        
+        if "Books, DVDs, music for children" in Amenities:
+            Books_DVD_music="Yes"
+        else:
+            Books_DVDs_music="No"
+        if "Strollers" in Amenities:
+            Strollers="Yes"
+        else:
+            Strollers="No"
+         
+            
+         
+            
+         
+        if "Allergy-free room" in Features:
+            Allergy_free_room="Yes"
+        else : 
+            Allergy_free_room="No"   
+        if "Coffee / tea maker" in Features:
+            Coffee_tea_maker="Yes"
+        else : 
+            Coffee_tea_maker="No"  
+        if "Blackout curtains" in Features:
+            Blackout_curtains="Yes"
+        else : 
+            Blackout_curtains="No"
+
+        if "Air conditioning" in Features:
+            Air_conditioning="Yes"
+        else : 
+            Air_conditioning="No"
+        if "Housekeeping" in Features:
+            Housekeeping="Yes"
+        else:
+            Housekeeping="No"
+        if "Flatscreen TV" in Features:
+            Flatscreen_TV="Yes"
+        else:
+            Flatscreen_TV="No"
+        if "Bathrobes" in Features:
+            Bathrobes="Yes"
+        else:
+            Bathrobes="No"
+        if "Telephone" in Features:
+            Telephone="Yes"
+        else:
+            All_day_check_in="No"
+        if "Wake-up service / alarm clock" in Features:
+            Alarm_clock="Yes"
+        else:
+            Alarm_clock="No"
+        if "Complimentary toiletries" in Features:
+            Complimentary_toiletries="Yes"
+        else:
+            Complimentary_toiletries="No"
+        if "Snack bar" in Features:
+            Snack_bar="Yes"
+        else:
+            Snack_bar="No"
+        if "Soundproof rooms" in Features:
+            Soundproof_rooms="Yes"
+        else:
+            Soundproof_rooms="No"
+        if "Desk" in Features:
+            Desk="Yes"
+        else:
+            Desk="No"
+        if "Minibar" in Features:
+            Minibar="Yes"
+        else:
+            Minibar="No"
+        if "Bath / shower" in Features:
+            Bath_shower="Yes"
+        else:
+            Bath_shower="No"
+        if "Safe" in Features:
+            Safe="Yes"
+        else:
+            Safe="No"
+        if "Bottled water" in Features:
+            Bottled_water="Yes"
+        else:
+            Bottled_water="No"
+           
+        if "Electric_kettle" in Features:
+            Electric_kettle="Yes"
+        else:
+            Electric_kettle="No"
+           
+        if "Hair dryer" in Features:
+            Hair_dryer="Yes"
+        else:
+            Hair_dryer="No"
+            
+        if "Air purifier" in Features:
+            Air_purifier="Yes"
+        else:
+            Air_purifier="No"
+            
+        if "Extra long beds" in Features:
+            Extra_long_beds="Yes"
+        else:
+            Extra_long_beds="No"
+        if "Private balcony" in Features:
+            Private_balcony="Yes"
+        else:
+            Private_balcony="No"
+        if "Room service" in Features:
+            Room_service="Yes"
+        else:
+            Room_service="No"
+        if "Interconnected rooms available" in Features:
+            Interconnected_rooms_available="Yes"
+        else:
+            Interconnected_rooms_available="No"
+        if "Separate dining area" in Features:
+            Separate_dining_area="Yes"
+        else:
+            Separate_dining_area="No"
+            
+        if "Refrigerator" in Features:
+            Refrigerator="Yes"
+        else:
+            Refrigerator="No"
+        
+        if "Cable / satellite TV" in Features:
+            Cable_satellite_TV="Yes"
+        else:
+            Cable_satellite_TV="No"
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+          
+        if "Non-smoking rooms" in Types:
+            Non_smoking_rooms="Yes"
+        else:
+            Non_smoking_rooms="No"
+           
+        if "Family rooms" in Types:
+            Family_rooms="Yes"
+        else:
+            Family_rooms="No"
+        
+        if "Suites" in Types:
+            Suites="Yes"
+        else:
+            Suites="No"
+        if "City view" in Types:
+            City_view="Yes"
+        else:
+            City_view="No"
+        if "Landmark view" in Types:
+            Landmark_view="Yes"
+        else:
+            Landmark_view="No"
+          
+        
+            
+         
+        
+        
         #Ecriture 
-        csvWriter.writerow((str(Name),Price,Rank,str(Adress),str(Phone),str(Website),str(Description),str(Hotel_Style),str(Mail),Rating,Number_Rating,Location_Rating,Cleanliness_Rating,Service_Rating,Value_Rating,Walking_Grade,Near_Restaurants,Near_Attractions,str(Language_Spoken)))
+        csvWriter.writerow((str(Name),Price,Rank,str(Adress),str(Phone),str(Website),str(Description),str(Hotel_Style),str(Mail),Rating,Number_Rating,Location_Rating,Cleanliness_Rating,Service_Rating,Value_Rating,Walking_Grade,Near_Restaurants,Near_Attractions,str(Language_Spoken),Wifi,Taxi,Breakfast,Baggage_storage,All_day_front_desk,All_day_check_in,Dry_cleaning,Complimentary_Coffee,Snack_bar,Concierge,Newspaper,Laundry_service,Non_smoking_hotel,Ironing_service,Kid_friendly_buffet,Bar_Lounge,Allergy_free_room,Coffee_tea_maker,Blackout_curtains,Air_conditioning,Housekeeping,Flatscreen_TV,Bathrobes,All_day_check_in,Alarm_clock,Complimentary_toiletries,Snack_bar,Soundproof_rooms,Desk,Minibar,Bath_shower,Safe,Bottled_water,Electric_kettle,Hair_dryer,Family_rooms,Non_smoking_rooms,Valet_parking,Pool,Indoor_pool,Sauna,Hot_tub,Fitness_Center,Rooftop_bar,Spa,Massage,Doorperson,Umbrella,Butler_service,Umbrella,Hammam,Meeting_rooms,Banquet_room,Meeting_rooms,Highchairs_available,Pets_Allowed,Car_hire,Restaurant,Extra_long_beds,Air_purifier,Room_service,Private_balcony,Landmark_view,City_view,Suites,Separate_dining_area,Interconnected_rooms_available,Cable_satellite_TV,Refrigerator,Breakfast_in_the_room,Personal_trainer,Currency_exchange,Paid_private_parking_nearby,Walking_tours,Yoga_room,Books_DVD_music,Strollers))
         driver.back()
     
     
