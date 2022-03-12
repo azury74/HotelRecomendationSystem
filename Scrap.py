@@ -235,7 +235,7 @@ for i in range(83):
         element=driver.find_element_by_xpath(".//div[contains(@class, 'dPTxH S4 b _S')]")
         actions = ActionChains(driver)
         actions.move_to_element(element).perform()
-        ActionChains(driver, 20).move_to_element(WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//div[text()='Show more']")))).click().perform()
+        ActionChains(driver, 20).move_to_element(WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, ".//div[contains(@class, 'dPTxH S4 b _S')]")))).click().perform()
         
         
         
