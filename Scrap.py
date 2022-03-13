@@ -7,7 +7,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-
+from selenium.common.exceptions import TimeoutException
 from selenium.common import exceptions  
 import csv
 from selenium.common.exceptions import NoSuchElementException        
@@ -30,11 +30,11 @@ chrome_options.add_argument('--window-size=1920,1080')
 chrome_options.add_argument("--headless")
 
 #Création du CSV
-csvFile = open("hotel1.csv", "w", newline='', encoding="utf-8")
+csvFile = open("hotel2.csv", "w", newline='', encoding="utf-8")
 csvWriter = csv.writer(csvFile,delimiter=';', quotechar='"')
 
 #Nom des collones 
-csvWriter.writerow(['Name','Price_night',"Rank",'Adress',"Phone","Website","Description","Hotel_Style","Mail",'Rating',"Number_Rating","Location_Rating","Cleanliness_Rating","Service_Rating","Value_Rating","Walking_Grade","Near_Restaurants","Near_Attractions","Language_Spoken","Wifi","Taxi","Breakfast","Baggage_storage","All_day_front_desk","All_day_check_in","Dry_cleaning","Complimentary_Coffee","Snack_bar","Concierge","Newspaper","Laundry_service","Non_smoking_hotel","Ironing_service","Kid_friendly_buffet","Bar_Lounge","Allergy_free_room","Coffee_tea_maker","Blackout_curtains","Air_conditioning","Housekeeping","Flatscreen_TV","Bathrobes","All_day_check_in","Alarm_clock","Complimentary_toiletries","Snack_bar","Soundproof_rooms","Desk","Minibar","Bath_shower","Safe","Bottled_water","Electric_kettle","Hair_dryer","Family_rooms","Non_smoking_rooms","Valet_parking","Pool","Indoor_pool","Sauna","Hot_tub","Fitness_Center","Rooftop_bar","Spa","Massage","Doorperson","Umbrella","Butler_service","Umbrella","Hammam","Meeting_rooms","Banquet_room","Meeting_rooms","Highchairs_available","Pets_Allowed","Car_hire","Restaurant","Extra_long_beds","Air_purifier","Room_service","Private_balcony","Landmark_view","City_view","Suites","Separate_dining_area","Interconnected_rooms_available","Cable_satellite_TV","Refrigerator","Breakfast_in_the_room","Personal_trainer","Currency_exchange","Paid_private_parking_nearby","Walking_tours","Yoga_room","Books_DVD_music","Strollers"])
+csvWriter.writerow(['Name','Price_night',"Rank",'Adress',"Phone","Website","Description","Number_of_Rooms","Hotel_Style","Mail",'Rating',"Number_Rating","Location_Rating","Cleanliness_Rating","Service_Rating","Value_Rating","Walking_Grade","Near_Restaurants","Near_Attractions","Language_Spoken","Wifi","Taxi","Breakfast","Baggage_storage","All_day_front_desk","All_day_check_in","Dry_cleaning","Complimentary_Coffee","Snack_bar","Concierge","Newspaper","Laundry_service","Non_smoking_hotel","Ironing_service","Kid_friendly_buffet","Bar_Lounge","Allergy_free_room","Coffee_tea_maker","Blackout_curtains","Air_conditioning","Housekeeping","Flatscreen_TV","Bathrobes","All_day_check_in","Alarm_clock","Complimentary_toiletries","Snack_bar","Soundproof_rooms","Desk","Minibar","Bath_shower","Safe","Bottled_water","Electric_kettle","Hair_dryer","Family_rooms","Non_smoking_rooms","Valet_parking","Pool","Indoor_pool","Sauna","Hot_tub","Fitness_Center","Rooftop_bar","Spa","Massage","Doorperson","Umbrella","Butler_service","Umbrella","Hammam","Meeting_rooms","Banquet_room","Meeting_rooms","Highchairs_available","Pets_Allowed","Car_hire","Restaurant","Extra_long_beds","Air_purifier","Room_service","Private_balcony","Landmark_view","City_view","Suites","Separate_dining_area","Interconnected_rooms_available","Cable_satellite_TV","Refrigerator","Breakfast_in_the_room","Personal_trainer","Currency_exchange","Paid_private_parking_nearby","Walking_tours","Yoga_room","Books_DVD_music","Strollers"])
 
 compteur_hotel=0
 
@@ -42,7 +42,7 @@ compteur_hotel=0
 for i in range(83):
     
     #Récupérer tous les hotels de chaque page 
-    driver.refresh()
+   
     time.sleep(3)
     elements=driver.find_elements_by_xpath(".//a[contains(@class, 'property_title prominent')]")
     links = []
@@ -58,12 +58,12 @@ for i in range(83):
       
         driver.get(links[i])
         
-        time.sleep(2) 
+        time.sleep(3) 
         
-        
+ 
         #Différente partie de la page: 
         try:
-            header=driver.find_elements_by_xpath(".//div[@class='ui_container is-fluid page-section accessible_red_3']")
+            header=driver.find_elements_by_xpath(".//div[@id='atf_header_wrap']")
         except NoSuchElementException:
             header=None
         try:
@@ -238,45 +238,71 @@ for i in range(83):
         except NoSuchElementException:
             Near_Restaurants=None
         
+        try:
+            Number_of_Rooms_info=driver.find_elements_by_xpath(".//div[contains(@class, 'cJdpk Ci')]")
+            Number_of_Rooms=Number_of_Rooms_info[-1].text
+        except NoSuchElementException:
+            Number_of_Rooms=None
+        
         
         #Détail propriété:
-        element=driver.find_element_by_xpath(".//div[contains(@class, 'dPTxH S4 b _S')]")
-        actions = ActionChains(driver)
-        actions.move_to_element(element).perform()
-        time.sleep(1)
-        ActionChains(driver, 20).move_to_element(WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, ".//div[contains(@class, 'dPTxH S4 b _S')]")))).click().perform()
+        pb=0
+        try:
+            element=driver.find_elements_by_xpath(".//div[contains(@class, 'dPTxH S4 b _S')]")
+            
+            #print("--------")
+            #print(nb_show)
+            if(len(element)==2):
+                actions = ActionChains(driver)
+                actions.move_to_element(element[0]).perform()
+                time.sleep(1)
+                ActionChains(driver, 20).move_to_element(WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, ".//div[contains(@class, 'dPTxH S4 b _S')]")))).click().perform()
+                A=driver.find_elements_by_xpath(".//div[contains(@class,'exYMC K I Pf')]")
+            else : 
+                A=driver.find_elements_by_xpath(".//div[contains(@class,'ssr-init-26f')]")
+                pb=1
+           
+        except NoSuchElementException:
+            A=driver.find_elements_by_xpath(".//div[contains(@class,'ssr-init-26f')]")
         
         
-        
-        A=driver.find_elements_by_xpath(".//div[contains(@class,'exYMC K I Pf')]")
-        
+         
         
         if(len(A)==0):
             Amenities=[]
         else:
-            Amenities=A[0].find_elements_by_xpath(".//div[contains(@class,'bUmsU f ME H3 _c')]")
+            if(pb==1):
+                Amenities=driver.find_elements_by_xpath(".//div[contains(@class,'bUmsU f ME H3 _c')]")
+            else:
+                Amenities=A[0].find_elements_by_xpath(".//div[contains(@class,'bUmsU f ME H3 _c')]")
         for o in range(len(Amenities)):
             Amenities[o]=Amenities[o].text
         
+        if(pb==0):
+            try :
+                driver.find_element_by_xpath("//span[text()='Room features']")
+                ActionChains(driver, 20).move_to_element(WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//span[text()='Room features']")))).click().perform()
+                B=driver.find_elements_by_xpath(".//div[contains(@class,'exYMC K I Pf')]")
+                Features=B[0].find_elements_by_xpath(".//div[contains(@class,'bUmsU f ME H3 _c')]")
+            except NoSuchElementException:
+                    Features=[]
+            for o in range(len(Features)):
+                Features[o]=Features[o].text
         
-        ActionChains(driver, 20).move_to_element(WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//span[text()='Room features']")))).click().perform()
+            try:
+                driver.find_element_by_xpath("//span[text()='Room types']")
+                ActionChains(driver, 20).move_to_element(WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//span[text()='Room types']")))).click().perform()
+                C=driver.find_elements_by_xpath(".//div[contains(@class,'exYMC K I Pf')]")
+                Types=C[0].find_elements_by_xpath(".//div[contains(@class,'bUmsU f ME H3 _c')]")
+            except NoSuchElementException:
+                Types=[]
         
-        B=driver.find_elements_by_xpath(".//div[contains(@class,'exYMC K I Pf')]")
-        Features=B[0].find_elements_by_xpath(".//div[contains(@class,'bUmsU f ME H3 _c')]")
-        
-        for o in range(len(Features)):
-            Features[o]=Features[o].text
-        
-        
-        ActionChains(driver, 20).move_to_element(WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//span[text()='Room types']")))).click().perform()
-        C=driver.find_elements_by_xpath(".//div[contains(@class,'exYMC K I Pf')]")
-        
-        Types=C[0].find_elements_by_xpath(".//div[contains(@class,'bUmsU f ME H3 _c')]")
-        
-        for o in range(len(Types)):
-            Types[o]=Types[o].text
-
-        
+            for o in range(len(Types)):
+                Types[o]=Types[o].text
+        else :
+            
+            Types=Amenities
+            Features=Amenities
         
         
         
@@ -625,7 +651,7 @@ for i in range(83):
         
         
         #Ecriture 
-        csvWriter.writerow((str(Name),Price,Rank,str(Adress),str(Phone),str(Website),str(Description),str(Hotel_Style),str(Mail),Rating,Number_Rating,Location_Rating,Cleanliness_Rating,Service_Rating,Value_Rating,Walking_Grade,Near_Restaurants,Near_Attractions,str(Language_Spoken),Wifi,Taxi,Breakfast,Baggage_storage,All_day_front_desk,All_day_check_in,Dry_cleaning,Complimentary_Coffee,Snack_bar,Concierge,Newspaper,Laundry_service,Non_smoking_hotel,Ironing_service,Kid_friendly_buffet,Bar_Lounge,Allergy_free_room,Coffee_tea_maker,Blackout_curtains,Air_conditioning,Housekeeping,Flatscreen_TV,Bathrobes,All_day_check_in,Alarm_clock,Complimentary_toiletries,Snack_bar,Soundproof_rooms,Desk,Minibar,Bath_shower,Safe,Bottled_water,Electric_kettle,Hair_dryer,Family_rooms,Non_smoking_rooms,Valet_parking,Pool,Indoor_pool,Sauna,Hot_tub,Fitness_Center,Rooftop_bar,Spa,Massage,Doorperson,Umbrella,Butler_service,Umbrella,Hammam,Meeting_rooms,Banquet_room,Meeting_rooms,Highchairs_available,Pets_Allowed,Car_hire,Restaurant,Extra_long_beds,Air_purifier,Room_service,Private_balcony,Landmark_view,City_view,Suites,Separate_dining_area,Interconnected_rooms_available,Cable_satellite_TV,Refrigerator,Breakfast_in_the_room,Personal_trainer,Currency_exchange,Paid_private_parking_nearby,Walking_tours,Yoga_room,Books_DVD_music,Strollers))
+        csvWriter.writerow((str(Name),Price,Rank,str(Adress),str(Phone),str(Website),str(Description),Number_of_Rooms,str(Hotel_Style),str(Mail),Rating,Number_Rating,Location_Rating,Cleanliness_Rating,Service_Rating,Value_Rating,Walking_Grade,Near_Restaurants,Near_Attractions,str(Language_Spoken),Wifi,Taxi,Breakfast,Baggage_storage,All_day_front_desk,All_day_check_in,Dry_cleaning,Complimentary_Coffee,Snack_bar,Concierge,Newspaper,Laundry_service,Non_smoking_hotel,Ironing_service,Kid_friendly_buffet,Bar_Lounge,Allergy_free_room,Coffee_tea_maker,Blackout_curtains,Air_conditioning,Housekeeping,Flatscreen_TV,Bathrobes,All_day_check_in,Alarm_clock,Complimentary_toiletries,Snack_bar,Soundproof_rooms,Desk,Minibar,Bath_shower,Safe,Bottled_water,Electric_kettle,Hair_dryer,Family_rooms,Non_smoking_rooms,Valet_parking,Pool,Indoor_pool,Sauna,Hot_tub,Fitness_Center,Rooftop_bar,Spa,Massage,Doorperson,Umbrella,Butler_service,Umbrella,Hammam,Meeting_rooms,Banquet_room,Meeting_rooms,Highchairs_available,Pets_Allowed,Car_hire,Restaurant,Extra_long_beds,Air_purifier,Room_service,Private_balcony,Landmark_view,City_view,Suites,Separate_dining_area,Interconnected_rooms_available,Cable_satellite_TV,Refrigerator,Breakfast_in_the_room,Personal_trainer,Currency_exchange,Paid_private_parking_nearby,Walking_tours,Yoga_room,Books_DVD_music,Strollers))
         driver.back()
         
         
