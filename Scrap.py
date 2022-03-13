@@ -38,10 +38,18 @@ csvWriter.writerow(['Name','Price_night',"Rank",'Adress',"Phone","Website","Desc
 
 compteur_hotel=0
 
+#Boucle parcourant toute les pages de TripAdvisor
 for i in range(83):
+    
+    #Récupérer tous les hotels de chaque page 
     driver.refresh()
+    time.sleep(3)
     elements=driver.find_elements_by_xpath(".//a[contains(@class, 'property_title prominent')]")
     links = []
+    
+    #Avoir la page suivante
+    Next_Button=driver.find_element_by_xpath(".//a[contains(@class,'nav next ui_button primary')]").get_attribute("href")
+    
     for i in range(len(elements)):
         links.append(elements[i].get_attribute('href'))
 
@@ -235,13 +243,18 @@ for i in range(83):
         element=driver.find_element_by_xpath(".//div[contains(@class, 'dPTxH S4 b _S')]")
         actions = ActionChains(driver)
         actions.move_to_element(element).perform()
+        time.sleep(1)
         ActionChains(driver, 20).move_to_element(WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, ".//div[contains(@class, 'dPTxH S4 b _S')]")))).click().perform()
         
         
         
         A=driver.find_elements_by_xpath(".//div[contains(@class,'exYMC K I Pf')]")
-        Amenities=A[0].find_elements_by_xpath(".//div[contains(@class,'bUmsU f ME H3 _c')]")
         
+        
+        if(len(A)==0):
+            Amenities=[]
+        else:
+            Amenities=A[0].find_elements_by_xpath(".//div[contains(@class,'bUmsU f ME H3 _c')]")
         for o in range(len(Amenities)):
             Amenities[o]=Amenities[o].text
         
@@ -263,8 +276,7 @@ for i in range(83):
         for o in range(len(Types)):
             Types[o]=Types[o].text
 
-        compteur_hotel+=1        
-        print(compteur_hotel)
+        
         
         
         
@@ -608,17 +620,18 @@ for i in range(83):
           
         
             
-         
+        compteur_hotel+=1        
+        print(compteur_hotel)
         
         
         #Ecriture 
         csvWriter.writerow((str(Name),Price,Rank,str(Adress),str(Phone),str(Website),str(Description),str(Hotel_Style),str(Mail),Rating,Number_Rating,Location_Rating,Cleanliness_Rating,Service_Rating,Value_Rating,Walking_Grade,Near_Restaurants,Near_Attractions,str(Language_Spoken),Wifi,Taxi,Breakfast,Baggage_storage,All_day_front_desk,All_day_check_in,Dry_cleaning,Complimentary_Coffee,Snack_bar,Concierge,Newspaper,Laundry_service,Non_smoking_hotel,Ironing_service,Kid_friendly_buffet,Bar_Lounge,Allergy_free_room,Coffee_tea_maker,Blackout_curtains,Air_conditioning,Housekeeping,Flatscreen_TV,Bathrobes,All_day_check_in,Alarm_clock,Complimentary_toiletries,Snack_bar,Soundproof_rooms,Desk,Minibar,Bath_shower,Safe,Bottled_water,Electric_kettle,Hair_dryer,Family_rooms,Non_smoking_rooms,Valet_parking,Pool,Indoor_pool,Sauna,Hot_tub,Fitness_Center,Rooftop_bar,Spa,Massage,Doorperson,Umbrella,Butler_service,Umbrella,Hammam,Meeting_rooms,Banquet_room,Meeting_rooms,Highchairs_available,Pets_Allowed,Car_hire,Restaurant,Extra_long_beds,Air_purifier,Room_service,Private_balcony,Landmark_view,City_view,Suites,Separate_dining_area,Interconnected_rooms_available,Cable_satellite_TV,Refrigerator,Breakfast_in_the_room,Personal_trainer,Currency_exchange,Paid_private_parking_nearby,Walking_tours,Yoga_room,Books_DVD_music,Strollers))
         driver.back()
-    
-    
-    #Avoir la page suivante
-    lien_next=driver.find_element_by_xpath(".//a[contains(@class, 'nav next ui_button primary')]").get_attribute("href")
-    driver.get(lien_next)
+        
+        
+    #Chnqger de page
+    driver.get(Next_Button)
+   
     
 csvFile.close()
 driver.close()
