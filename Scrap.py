@@ -58,15 +58,13 @@ for i in range(83):
       
         driver.get(links[i])
         
-        time.sleep(3) 
+        time.sleep(2) 
         
  
         #Différente partie de la page: 
+        
         try:
-            header=driver.find_elements_by_xpath(".//div[@id='atf_header_wrap']")
-        except NoSuchElementException:
-            header=None
-        try:
+            WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, ".//div[@class='ui_column  ']")))
             about=driver.find_elements_by_xpath(".//div[@class='ui_column  ']")
         except NoSuchElementException:
             about=None
@@ -84,12 +82,12 @@ for i in range(83):
         
         #Info du Header :
         try:
-            Name = header[0].find_element_by_xpath(".//h1[contains(@class, 'fkWsC b d Pn')]").text
+            Name = driver.find_element_by_xpath(".//h1[contains(@class, 'fkWsC b d Pn')]").text
         except NoSuchElementException:
             Name=None
         
         try:
-            score_class = header[0].find_element_by_xpath(".//span[contains(@class, 'ui_bubble_rating bubble_')]").get_attribute("class")
+            score_class = driver.find_element_by_xpath(".//span[contains(@class, 'ui_bubble_rating bubble_')]").get_attribute("class")
             Rating = score_class.split("_")[3]
             Rating=int(Rating)/10
         except NoSuchElementException:
@@ -106,13 +104,13 @@ for i in range(83):
             Price= None
         
         try:
-            info_Rank=header[0].find_element_by_xpath(".//div[contains(@class, 'KeVaw')]").text
+            info_Rank=driver.find_element_by_xpath(".//div[contains(@class, 'KeVaw')]").text
             Rank=info_Rank.split(" ")[0]
         except NoSuchElementException:
             Rank=None
 
         try:
-            Phone=header[0].find_element_by_xpath(".//span[contains(@class, 'eeFQx ceIOZ yYjkv')]").text
+            Phone=driver.find_element_by_xpath(".//span[contains(@class, 'eeFQx ceIOZ yYjkv')]").text
         except NoSuchElementException:
             Phone=None          
        
@@ -214,7 +212,7 @@ for i in range(83):
             Number_Rating_info=None
         
         try:
-            Adress=header[0].find_element_by_xpath(".//span[contains(@class, 'ceIOZ yYjkv')]").text
+            Adress=driver.find_element_by_xpath(".//span[contains(@class, 'ceIOZ yYjkv')]").text
         except NoSuchElementException:
             Adress=None
         
