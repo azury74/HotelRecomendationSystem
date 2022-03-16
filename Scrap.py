@@ -1,5 +1,6 @@
 #-*- coding: UTF-8 -*-
 
+#Import des classes essencielles au projet
 import time
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
