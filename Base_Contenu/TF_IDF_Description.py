@@ -10,7 +10,7 @@ from sklearn.metrics.pairwise import linear_kernel, cosine_similarity
 
 
 
-dt=pd.read_csv("Hotel.csv", sep=";")
+dt=pd.read_csv("Hotels.csv", sep=";")
 dt=dt.drop_duplicates(subset=['Name'])
 
 
