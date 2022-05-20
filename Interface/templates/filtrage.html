@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="../static/css/style.css">
+        <link rel="stylesheet" href="../static/css/style_1.css">   
+        <link rel="icon" type="image/png" sizes="32x32" href="../static/Images/favicon-32x32.png">
+        <title>Paris Hotel</title>
+    </head>
+
+    <body style="background: rgb(242, 242, 242)">
+    	<header>
+            <div class="header">
+                <img src="../static/Images/logoBlack.png" alt="Logo" class="Logo"> 
+                <div style="display:flex;position:absolute;right:100px;
+    top:10px;padding:20px">
+                
+                    <div class="Profil"><img src="../static/Images/profil.png" alt="Logo" class="LogoDisconnect"> </div>
+                    <div class="Envoi">
+                
+                
+                </div>
+
+           
+                </div>
+                 <div class="Profil"><img src="../static/Images/profil.png" alt="Logo" class="LogoDisconnect" style="margin-right:30px">   
+                    <ul id="menu-demo2" style="margin-top: 10px;">
+                        <li><a href="#">Menu</a>
+                            <ul>
+                                <li><a href="{{ url_for('form') }}">Form</a></li>
+                                <li><a href="{{ url_for('like_search') }}">Hotels you could like</a></li>
+                                <li><a href="{{ url_for('filtrage') }}">Similar profiles choices</a></li>
+                                <li><a href="{{ url_for('index') }}">Disconect</a></li>
+                                
+                            </ul>
+                        </li>
+                 </div>
+	    </div>
+    	
+    	</header>
+        
+        <section>
+            <div style="display:flex;margin-top:250px;margin-left:60px">
+                <div style="background-color:gray;width:30%;height:300px"><img src="../static/Images/profil1.png" alt="Logo" style="margin-left:100px;margin-top:20px"> <p style="font-family: Futura;color:white;font-size:3em;text-align:center;margin-top:-50px">Lara</p> <div class="Envoi" style="margin-left:130px;margin-top:-50px">
+                    <form enctype="multipart/form-data" action="{{ url_for('recherche_filtrage') }}" method="get" name="formulaire" >    
+                        <input name="UserID" id="UserID" value="13643" style="display: none;">
+                        <input name="Name" id="Name" value="Lara" style="display: none;">
+                        <button class="connexion1"><span>Choose this profile</span></button>
+
+                    </form>
+                </div></div>
+                 <div style="background-color:gray;width:30%;height:300px;margin-left:30px"><img src="../static/Images/profil2.png" alt="Logo"  style="margin-left:120px;margin-top:20px"> <p style="font-family: Futura;color:white;font-size:3em;text-align:center;margin-top:-50px">Lucie</p> <div class="Envoi" style="margin-left:140px;margin-top:-50px">
+                    <form enctype="multipart/form-data" action="{{ url_for('recherche_filtrage') }}" method="get" name="formulaire" >
+                        <input name="UserID" id="UserID" value="2213" style="display: none;">
+                        <input name="Name" id="Name" value="Lucie" style="display: none;">
+                        <button class="connexion1"><span>Choose this profile</span></button>
+                    </form>
+                </div></div>
+                 <div style="background-color:gray;width:30%;height:300px;margin-left:30px"><img src="../static/Images/profil3.png" alt="Logo"  style="margin-left:110px;margin-top:20px"><p style="font-family: Futura;color:white;font-size:3em;text-align:center;margin-top:-50px">Pierre</p> <div class="Envoi" style="margin-left:140px;margin-top:-50px">
+                <form enctype="multipart/form-data" action="{{ url_for('recherche_filtrage') }}" method="get" name="formulaire" >
+                    <input name="UserID" id="UserID" value="21885" style="display: none;">
+                    <input name="Name" id="Name" value="Pierre" style="display: none;">
+                    <button class="connexion1"><span>Choose this profile</span></button>
+                </form>
+                </div> </div>
+            </div>
+
+    	</section>
+        <section style="margin-left:650px;margin-top:50px"><div class="Envoi">
+
+            <button class="connexion2" id="Create a new profile"><span>Create a new profile</span></button>
+            
+            </div></section>
+     
+    	
+    	
+
+    </body>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript">
+$(window).load(function() {
+$(".loader").fadeOut("10000"); });
+
+document.getElementById("Create a new profile").onclick = function () {
+        location.href = "{{ url_for('create_new') }}";
+    };
+</script>
+</html>
