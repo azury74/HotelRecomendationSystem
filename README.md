@@ -24,7 +24,8 @@ In order to use the interface, you will need to install Flask :
 
 With pip :
 
-```$ pip install Flask
+```node
+$ pip install Flask
 ```
 
 ### Start the project
