@@ -6,7 +6,7 @@
   - Thomas DURAND
 
 
-## Description
+## Description :
 
 This program combines several recommendation approaches in order to predict and display to users recommendations of hotels located in the Paris area. 
 
@@ -18,21 +18,35 @@ Approach used :
   - Form to search what you want 
 
 
-## Installation
+## Installation :
 
 In order to use the interface, you will need to install Flask : 
 
-With pip :
+Install Flask, with pip :
 
 ```node
 $ pip install Flask
 ```
+Install Surpise, with pip :
+```node
+$ pip install numpy
+$ pip install scikit-surprise
+```
+Install Pandas, with pip : 
+```node
+$ pip install pandas
+```
 
-### Start the project
+### Start the project :
 
-In order to start the project, just start "Interface.py" 
+In order to start the project, just launch "Interface.py" in the Interface folder. 
 
-## Libraries
+Then open the following page in your web browser : 
+
+<http://127.0.0.1:5000/>
+
+
+## Libraries :
 
 Flask :
 
