@@ -106,7 +106,7 @@ def form_envoi():
         idx=indices[Name]
         sim_scores= list(enumerate(cosine_sim[idx]))
         sim_scores= sorted(sim_scores, key=lambda x : x[1], reverse=True)
-        sim_scores=sim_scores[1:11]
+        sim_scores=sim_scores[1:int(request.args.get('numb_result'))+1]
         hotel_indices=[i[0] for i in sim_scores]
         if(1111 in hotel_indices):
             hotel_indices.remove(1111)
@@ -115,6 +115,7 @@ def form_envoi():
         
         for i in range(len(hotel_indices)):
             liste_resultat[hotel['Name'].iloc[hotel_indices[i]]]=round(round(sim[i],4)*100,2)
+        
         return liste_resultat.items()
   
     list_recom=content_recommender("NewHotel")
@@ -311,6 +312,3 @@ def recherche_filtrage():
 
 app.run(debug=False)
 
-
-
-    
