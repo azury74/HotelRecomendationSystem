@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -50,15 +49,19 @@
                
                <div><h2 class="H2_1" style="margin-top:25px;margin-right:20px">Price :</h2>
                 <div style="margin-left: 100px;">
-                    <span id="rangeValue" style="font-family:futura">0$</span>
                     <Input class="range" type="range" name="Price_night" value="0" min="0" max="1000" onChange="rangeSlide(this.value)" onmousemove="rangeSlide(this.value)"></Input>
+                    <span id="rangeValue" style="font-family:futura">0$</span>
                 </div>
                 <script type="text/javascript">
                     function rangeSlide(value) {
                         document.getElementById('rangeValue').innerHTML = value+"$";
                     }
                 </script>
-               
+                <h2 class="H2_1" style="margin-top:25px;margin-right:20px">Number of result :</h2>
+              <div class="Info1">
+                
+                <input type="number" id="numb_result" name="numb_result" min="2" max="30" value="5">
+              </div>
                
                <h2 class="H2_1" style="margin-top:25px;margin-right:20px">Air conditionning :</h2>
                 <div class="Info1">
