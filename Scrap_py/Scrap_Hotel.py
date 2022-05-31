@@ -38,9 +38,7 @@ csvWriter1 = csv.writer(csvFile1,delimiter=';', quotechar='"')
 
 
 #Nom des collones 
-
-#csvWriter1.writerow(['User','Hotel','Note','Date','Title','Review'])
-#csvWriter.writerow(['Name','Price_night',"Rank",'Adress',"Phone","Website","Description","Number_of_Rooms","Hotel_Style","Mail",'Rating',"Number_Rating","Location_Rating","Cleanliness_Rating","Service_Rating","Value_Rating","Walking_Grade","Near_Restaurants","Near_Attractions","Language_Spoken","Wifi","Taxi","Breakfast","Baggage_storage","All_day_front_desk","All_day_check_in","Dry_cleaning","Complimentary_Coffee","Snack_bar","Concierge","Newspaper","Laundry_service","Non_smoking_hotel","Ironing_service","Kid_friendly_buffet","Bar_Lounge","Allergy_free_room","Coffee_tea_maker","Blackout_curtains","Air_conditioning","Housekeeping","Flatscreen_TV","Bathrobes","All_day_check_in","Alarm_clock","Complimentary_toiletries","Snack_bar","Soundproof_rooms","Desk","Minibar","Bath_shower","Safe","Bottled_water","Electric_kettle","Hair_dryer","Family_rooms","Non_smoking_rooms","Valet_parking","Pool","Indoor_pool","Sauna","Hot_tub","Fitness_Center","Rooftop_bar","Spa","Massage","Doorperson","Umbrella","Butler_service","Umbrella","Hammam","Meeting_rooms","Banquet_room","Meeting_rooms","Highchairs_available","Pets_Allowed","Car_hire","Restaurant","Extra_long_beds","Air_purifier","Room_service","Private_balcony","Landmark_view","City_view","Suites","Separate_dining_area","Interconnected_rooms_available","Cable_satellite_TV","Refrigerator","Breakfast_in_the_room","Personal_trainer","Currency_exchange","Paid_private_parking_nearby","Walking_tours","Yoga_room","Books_DVD_music","Strollers"])
+csvWriter.writerow(['Name','Price_night',"Rank",'Adress',"Phone","Website","Description","Number_of_Rooms","Hotel_Style","Mail",'Rating',"Number_Rating","Location_Rating","Cleanliness_Rating","Service_Rating","Value_Rating","Walking_Grade","Near_Restaurants","Near_Attractions","Language_Spoken","Wifi","Taxi","Breakfast","Baggage_storage","All_day_front_desk","All_day_check_in","Dry_cleaning","Complimentary_Coffee","Snack_bar","Concierge","Newspaper","Laundry_service","Non_smoking_hotel","Ironing_service","Kid_friendly_buffet","Bar_Lounge","Allergy_free_room","Coffee_tea_maker","Blackout_curtains","Air_conditioning","Housekeeping","Flatscreen_TV","Bathrobes","All_day_check_in","Alarm_clock","Complimentary_toiletries","Snack_bar","Soundproof_rooms","Desk","Minibar","Bath_shower","Safe","Bottled_water","Electric_kettle","Hair_dryer","Family_rooms","Non_smoking_rooms","Valet_parking","Pool","Indoor_pool","Sauna","Hot_tub","Fitness_Center","Rooftop_bar","Spa","Massage","Doorperson","Umbrella","Butler_service","Umbrella","Hammam","Meeting_rooms","Banquet_room","Meeting_rooms","Highchairs_available","Pets_Allowed","Car_hire","Restaurant","Extra_long_beds","Air_purifier","Room_service","Private_balcony","Landmark_view","City_view","Suites","Separate_dining_area","Interconnected_rooms_available","Cable_satellite_TV","Refrigerator","Breakfast_in_the_room","Personal_trainer","Currency_exchange","Paid_private_parking_nearby","Walking_tours","Yoga_room","Books_DVD_music","Strollers"])
 
 compteur_hotel=0
 compteur_reviews=0
@@ -196,10 +194,7 @@ for i in range(83):
         for z in range(2,6): 
             temp=buble[z].get_attribute("class")
             tmp_Rating.append(temp.split("_")[3])
-        
-        #print("------------")
-        #print(tmp_Rating)
-        #print("END")
+
         
         if(len(tmp_Rating)==1 or len(tmp_Rating)==0 ):
             Location_Rating=None
@@ -255,8 +250,7 @@ for i in range(83):
         try:
             element=driver.find_elements_by_xpath(".//div[contains(@class, 'dPTxH S4 b _S')]")
             
-            #print("--------")
-            #print(nb_show)
+
             if(len(element)==2):
                 actions = ActionChains(driver)
                 actions.move_to_element(element[0]).perform()
@@ -655,41 +649,7 @@ for i in range(83):
             ActionChains(driver, 20).move_to_element(WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, ".//div[contains(@class,'dYqms _Q Z1 t _U c _S mgwmC')]")))).click().perform()
         compteur_hotel+=1        
         print("Hotel :"+str(compteur_hotel))
-        
-        compteur=0
-        while(compteur<=10):
-            
-            reviews = driver.find_elements_by_xpath("//div[@class='cWwQK MC R2 Gi z Z BB dXjiy']")
-            compteur+=1
-            # Loop through the reviews found
-            for i in range(len(reviews)):
-                # get the score, date, title and review
-                WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, ".//span[contains(@class, 'ui_bubble_rating bubble_')]")))
-                score_class = reviews[i].find_element_by_xpath(".//span[contains(@class, 'ui_bubble_rating bubble_')]").get_attribute("class")
-                Note = int(score_class.split("_")[3])/10
-                Title = reviews[i].find_element_by_xpath(".//a[@class='fCitC']").text
-                Review = reviews[i].find_element_by_xpath(".//div[@class='pIRBV _T']").text.replace("\n", "")
-                User=reviews[i].find_element_by_xpath(".//a[@class='ui_header_link bPvDb']").text
-                Date_Info=reviews[i].find_element_by_xpath(".//span[@class='euPKI _R Me S4 H3']").text
-                Date=Date_Info.split(": ")[1]
-                try:
-                    Hotel = driver.find_element_by_xpath(".//h1[contains(@class, 'fkWsC b d Pn')]").text
-                except NoSuchElementException:
-                    Hotel=None
-                csvWriter1.writerow((User,Hotel,Note,Date,Title,Review))  
-                compteur_reviews+=1
-                
-                print("Review : "+str(compteur_reviews))
-            try:
-                Next_Button=driver.find_element_by_xpath(".//a[contains(@class,'ui_button nav next primary ')]")
-                Next_Button_click=driver.find_element_by_xpath(".//a[contains(@class,'ui_button nav next primary ')]").get_attribute("href")
-                actions = ActionChains(driver)
-                actions.move_to_element(Next_Button).perform()
-                driver.get(Next_Button_click)
-            except NoSuchElementException:
-                break 
-            
-        
+       
         
         
         driver.back()  
