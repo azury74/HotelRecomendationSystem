@@ -1,0 +1,240 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="../static/css/style.css">
+        <link rel="stylesheet" href="../static/css/style_1.css">   
+        <link rel="icon" type="image/png" sizes="32x32" href="../static/Images/favicon-32x32.png">
+        <title>Paris Hotel</title>
+    </head>
+
+    <body style="background: rgb(242, 242, 242)">
+    	<header>
+            <div class="header">
+                <img src="../static/Images/logoBlack.png" alt="Logo" class="Logo"> 
+                <div style="display:flex;position:absolute;right:100px;
+    top:10px;padding:20px">
+                
+                    <div class="Profil"><img src="../static/Images/profil.png" alt="Logo" class="LogoDisconnect"> </div>
+                    <div class="Envoi">
+                
+                
+                </div>
+
+           
+                </div>
+                 <div class="Profil"><img src="../static/Images/profil.png" alt="Logo" class="LogoDisconnect" style="margin-right:30px">   
+                    <ul id="menu-demo2" style="margin-top: 10px;">
+                        <li><a href="#">Menu</a>
+                            <ul>
+                                <li><a href="{{ url_for('form') }}">Form</a></li>
+                                <li><a href="{{ url_for('like_search') }}">Hotels you could like</a></li>
+                                <li><a href="{{ url_for('filtrage') }}">Similar profiles choices</a></li>
+                                <li><a href="{{ url_for('index') }}">Disconect</a></li>
+                                
+                            </ul>
+                        </li>
+                 </div>
+	    </div>
+    	
+    	</header>
+        
+        <section style="margin-top:250px;">
+            
+            <h1 class="H1">Search form:</h1>
+            <h2 class="H2">Please fill in your criteria:</h2>
+            
+            <form enctype="multipart/form-data" action="{{ url_for('form_envoi') }}" method="get" name="formulaire" >
+               
+               
+               <div><h2 class="H2_1" style="margin-top:25px;margin-right:20px">Price :</h2>
+                <div style="margin-left: 100px;">
+                    <Input class="range" type="range" name="Price_night" value="0" min="0" max="1000" onChange="rangeSlide(this.value)" onmousemove="rangeSlide(this.value)"></Input>
+                    <span id="rangeValue" style="font-family:futura">0$</span>
+                </div>
+                <script type="text/javascript">
+                    function rangeSlide(value) {
+                        document.getElementById('rangeValue').innerHTML = value+"$";
+                    }
+                </script>
+                <h2 class="H2_1" style="margin-top:25px;margin-right:20px">Number of result :</h2>
+              <div class="Info1">
+                
+                <input type="number" id="numb_result" name="numb_result" min="2" max="30" value="5">
+              </div>
+               
+               <h2 class="H2_1" style="margin-top:25px;margin-right:20px">Air conditionning :</h2>
+                <div class="Info1">
+                    
+                    <label>
+			<input type="radio" name="Air_conditioning" value=1 name="radio" checked/>
+			<span>Yes</span>
+                    </label>
+                    <label>
+                            <input type="radio" name="Air_conditioning" value=0 name="radio"/>
+                            <span>No</span>
+                    </label>
+                    
+                </div>
+                    <h2 class="H2_1" style="margin-top:25px;margin-right:20px">Breakfast :</h2>
+                <div class="Info1">
+                
+                    <label>
+			<input type="radio" name="Breakfast" value=1 name="radio" checked/>
+			<span>Yes</span>
+                    </label>
+                    <label>
+                            <input type="radio" name="Breakfast" value=0 name="radio"/>
+                            <span>No</span>
+                    </label>
+                    
+                </div>
+
+                
+                <h2 class="H2" style="margin-top:25px;margin-right:20px">Wifi :</h2>
+                <div class="Info1">
+                    
+                    <label>
+			<input type="radio" name="Wifi" value=1 name="radio" checked/>
+			<span>Yes</span>
+                    </label>
+                    <label>
+                            <input type="radio" name="Wifi" value=0 name="radio"/>
+                            <span>No</span>
+                    </label>
+                    
+                </div>
+
+                <h2 class="H2" style="margin-top:25px;margin-right:20px">Taxi :</h2>
+                <div class="Info1">
+                    
+                    <label>
+			<input type="radio" name="Taxi" value=1 name="radio" checked/>
+			<span>Yes</span>
+                    </label>
+                    <label>
+                            <input type="radio" name="Taxi" value=0 name="radio"/>
+                            <span>No</span>
+                    </label>
+                    
+                </div>
+
+               <h2 class="H2" style="margin-top:25px;margin-right:20px">Suites :</h2>
+
+                <div class="Info1">
+                    <label>
+			<input type="radio" name="Suites" value=1 name="radio" checked/>
+			<span>Yes</span>
+                    </label>
+                    <label>
+                            <input type="radio" name="Suites" value=0 name="radio"/>
+                            <span>No</span>
+                    </label>
+                    
+                </div>
+               
+               
+               <h2 class="H2" style="margin-top:25px;margin-right:20px">Dry cleaning :</h2>
+
+                <div class="Info1">
+                    <label>
+			<input type="radio" name="Dry_cleaning" value=1 name="radio" checked/>
+			<span>Yes</span>
+                    </label>
+                    <label>
+                            <input type="radio" name="Dry_cleaning" value=0 name="radio"/>
+                            <span>No</span>
+                    </label>
+                    
+                </div>
+               
+               <h2 class="H2" style="margin-top:25px;margin-right:20px">Concierge :</h2>
+
+                <div class="Info1">
+                    <label>
+			<input type="radio" name="Concierge" value=1 name="radio" checked/>
+			<span>Yes</span>
+                    </label>
+                    <label>
+                            <input type="radio" name="Concierge" value=0 name="radio"/>
+                            <span>No</span>
+                    </label>
+                    
+                </div>
+                <h2 class="H2" style="margin-top:25px;margin-right:20px">Safe :</h2>
+
+                <div class="Info1">
+                    <label>
+			<input type="radio" name="Safe" value=1 name="radio" checked/>
+			<span>Yes</span>
+                    </label>
+                    <label>
+                            <input type="radio" name="Safe" value=0 name="radio"/>
+                            <span>No</span>
+                    </label>
+                    
+                </div>
+                
+                <h2 class="H2" style="margin-top:25px;margin-right:20px">Room-service :</h2>
+
+                <div class="Info1">
+                    <label>
+			<input type="radio" name="Room_service" value=1 name="radio" checked/>
+			<span>Yes</span>
+                    </label>
+                    <label>
+                            <input type="radio" name="Room_service" value=0 name="radio"/>
+                            <span>No</span>
+                    </label>
+                    
+                </div>
+                
+                <h2 class="H2" style="margin-top:25px;margin-right:20px">Breakfast in the room :</h2>
+
+                <div class="Info1">
+                    <label>
+			<input type="radio" name="Breakfast_in_the_room" value=1 name="radio" checked/>
+			<span>Yes</span>
+                    </label>
+                    <label>
+                            <input type="radio" name="Breakfast_in_the_room" value=0 name="radio"/>
+                            <span>No</span>
+                    </label>
+                    
+                </div>
+                
+                <h2 class="H2" style="margin-top:25px;margin-right:20px">Sound-proof rooms :</h2>
+
+                <div class="Info1">
+                    <label>
+			<input type="radio" name="Soundproof_rooms" value=1 name="radio" checked/>
+			<span>Yes</span>
+                    </label>
+                    <label>
+                            <input type="radio" name="Soundproof_rooms" value=0 name="radio"/>
+                            <span>No</span>
+                    </label>
+                    
+                </div>
+
+
+               
+               
+            <div class="Envoi">
+                <button class="button"><span>Search</span></button>
+                
+                </div>
+            </form>
+        </section>
+     
+    	
+    	
+
+    </body>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript">
+$(window).load(function() {
+$(".loader").fadeOut("10000"); });
+</script>
+</html>
