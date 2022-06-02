@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="../static/css/style.css">
+        <link rel="stylesheet" href="../static/css/style_1.css">   
+        <link rel="icon" type="image/png" sizes="32x32" href="../static/Images/favicon-32x32.png">
+        <title>Paris Hotel</title>
+    </head>
+
+    <body style="background: rgb(242, 242, 242)">
+    	<header>
+            <div class="header">
+                <img src="../static/Images/logoBlack.png" alt="Logo" class="Logo"> 
+                <div style="display:flex;position:absolute;right:100px;
+    top:10px;padding:20px">
+                
+                    <div class="Profil"><img src="../static/Images/profil.png" alt="Logo" class="LogoDisconnect"> </div>
+                    <div class="Envoi">
+                
+                
+                </div>
+
+           
+                </div>
+                 <div class="Profil"><img src="../static/Images/profil.png" alt="Logo" class="LogoDisconnect" style="margin-right:30px">   
+                    <ul id="menu-demo2" style="margin-top: 10px;">
+                        <li><a href="#">Menu</a>
+                            <ul>
+                                <li><a href="{{ url_for('form') }}">Form</a></li>
+                                <li><a href="{{ url_for('like_search') }}">Hotels you could like</a></li>
+                                <li><a href="{{ url_for('filtrage') }}">Similar profiles choices</a></li>
+                                <li><a href="{{ url_for('index') }}">Disconect</a></li>
+                                
+                            </ul>
+                        </li>
+                 </div>
+	    </div>
+    	
+    	</header>
+        <section style="margin-top:270px;margin-left:150px;display:flex;">
+            <div style="display: flex;">
+                <div style="margin-right:100px">
+                    <p style="font-family: Futura;color:black;font-size:1.9em;">Hi, {{ user }} </p>
+                    <p style="font-family: Futura;color:black;font-size:1.4em;margin-top:-20px"> Here are the last hotels you visited : </p>
+                    <div style="margin-right:100px">
+                            <ul style="font-family:futura;font-size:1.1em">
+                                {% for i in choice %}
+                                    <li>{{ i }}</li>
+                                {% endfor %}
+                                </ul>
+                        </div>
+                </div>
+                <div style="background: #c8c2c2;padding:20px;">
+                        <div style="display:flex">
+                            <h1 style="font-family: futura;font-size: 1.5em;margin-left:30px">Similar users, based on your last choices, has also liked this :</h1>
+                        </div>
+                        <div style="margin-right:100px;display: flex">
+                            <div style="display: flex;">
+                                <ul style="font-family:futura;font-size:1.3em">
+                                    <li style="font-size: 1.1em;margin-bottom: 40px;">Hotel :</li>
+                                    {% for key,value in recommendation %}
+                                        <li>{{ key }}</li>
+                                        
+                                    {% endfor %}
+                                </ul>
+                                <ul style="font-family:futura;font-size:1.3em;list-style-type: none;">
+                                    <li style="font-size: 1.1em;margin-bottom: 40px;width:200px">Rating estimated :</li>
+                                    {% for key,value in recommendation %}
+                                        <li>{{ value }} stars</li>
+                                        {% endfor %}
+                                </ul>
+
+                                <ul style="font-family:futura;font-size:1.3em;list-style-type: none;">
+                                    <li style="font-size: 1.1em;margin-bottom: 40px;margin-left: 40px;">Website :</li>
+                                
+                                    {% for value in website %}
+                                        {% if(value=="None")%}
+                                        <li><p style="font-size:0.8em;margin-left: 45px;margin-bottom:0px;margin-top: 5px;">No link</p></li>
+                                        {% else %}
+                                        <li><a href="{{ value }}" target="_blank" style="margin-top:5px;text-decoration: none;color:white;background-color: black;border-radius: 10px;padding:5px;font-size: 0.6em;margin-left: 40px;">Click here</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            
+                            
+                        </div>
+                </div>
+            </div>
+        </section>
+        
+    	
+    	
+
+    </body>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+    <script type="text/javascript">// <![CDATA[
+        function loading(){
+            $("#loading").show();
+            $("#content").hide();       
+        }
+// ]]></script>
+</html>
